@@ -341,7 +341,7 @@ void balboaGL::sendCommand() {
         if(digitalRead(PIN_5_PIN) != LOW) {
            Serial.println("ERROR: Pin5 went high before command before write");
         }
-	for(i=0; i<sizeof(byteArray); i++){
+	for(int i=0; i<sizeof(byteArray); i++){
 		printHex(byteArray[i]);
 	}
         tub->write(byteArray, sizeof(byteArray));
