@@ -330,12 +330,12 @@ void balboaGL::sendCommand() {
         digitalWrite(LED_PIN, HIGH);
 
         delayMicroseconds(delayTime);
-        // Serial.println("Sending " + sendBuffer);
+        Serial.println("Sending " + sendBuffer);
         byte byteArray[18] = {0};
         hexCharacterStringToBytes(byteArray, sendBuffer.getHead().c_str());
-        // if(digitalRead(PIN_5_PIN) != LOW) {
-        //   Serial.println("ERROR: Pin5 went high before command before write");
-        // }
+        if(digitalRead(PIN_5_PIN) != LOW) {
+           Serial.println("ERROR: Pin5 went high before command before write");
+        }
         tub->write(byteArray, sizeof(byteArray));
         if (digitalRead(PIN_5_PIN) != LOW) {
             Serial.printf("ERROR: Pin5 went high before command before flush : %u\n", delayTime);
@@ -348,9 +348,9 @@ void balboaGL::sendCommand() {
             Serial.printf("message sent : %u\n", delayTime);
             // delayTime += 10;
         }
-        // else {
-        //   Serial.println("ERROR: Pin5 went high before command could be sent after flush");
-        // }
+         else {
+           Serial.println("ERROR: Pin5 went high before command could be sent after flush");
+         }
         digitalWrite(RTS_PIN, LOW);
         digitalWrite(LED_PIN, LOW);
     }
