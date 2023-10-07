@@ -323,6 +323,12 @@ void balboaGL::handleMessage() {
         telnetSend("U: " + result);
     }
 }
+void printHex(uint8_t num) {
+  char hexCar[2];
+
+  sprintf(hexCar, "%02X", num);
+  Serial.print(hexCar);
+}
 
 void balboaGL::sendCommand() {
     if (!sendBuffer.isEmpty()) {
@@ -330,12 +336,14 @@ void balboaGL::sendCommand() {
         digitalWrite(LED_PIN, HIGH);
 
         delayMicroseconds(delayTime);
-        Serial.println("Sending " + sendBuffer);
         byte byteArray[18] = {0};
         hexCharacterStringToBytes(byteArray, sendBuffer.getHead().c_str());
         if(digitalRead(PIN_5_PIN) != LOW) {
            Serial.println("ERROR: Pin5 went high before command before write");
         }
+	for(i=0; i<sizeof(byteArray); i++){
+		printHex(byteArray[i]);
+	}
         tub->write(byteArray, sizeof(byteArray));
         if (digitalRead(PIN_5_PIN) != LOW) {
             Serial.printf("ERROR: Pin5 went high before command before flush : %u\n", delayTime);
